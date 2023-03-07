@@ -1,1 +1,1 @@
-enum KeyboardItemType { basicOperation, equals, numeric, parentheses }
+enum KeyboardItemType { basicOperation, equals, numeric, parentheses, clear }

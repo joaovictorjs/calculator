@@ -11,4 +11,10 @@ class KeyboardItem {
     required this.value,
     required this.span,
   });
+
+  KeyboardItem.numeric(this.value) {
+    text = value;
+    span = 1;
+    type = KeyboardItemType.numeric;
+  }
 }
