@@ -1,6 +1,10 @@
 import 'package:calculator/states/app_theme/app_theme_bloc.dart';
 import 'package:calculator/states/app_theme/app_theme_event.dart';
 import 'package:calculator/states/app_theme/app_theme_state.dart';
+import 'package:calculator/states/display/display_bloc.dart';
+import 'package:calculator/states/display/display_event.dart';
+import 'package:calculator/states/parentheses/parentheses_bloc.dart';
+import 'package:calculator/states/parentheses/parentheses_event.dart';
 import 'package:calculator/widgets/display_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -13,6 +17,7 @@ class DisplayBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appTheme = BlocProvider.of<AppThemeBloc>(context);
+    var displayBloc = BlocProvider.of<DisplayBloc>(context);
 
     return SizedBox(
       height: 40,
@@ -32,7 +37,12 @@ class DisplayBar extends StatelessWidget {
             ),
             DisplayButton(
               iconData: Icons.backspace_outlined,
-              action: () {},
+              action: () {
+                displayBloc.add(RemoveLastInput(whenLastIsParentheses: () {
+                  BlocProvider.of<ParenthesesBloc>(context)
+                      .add(ToggleParentheses());
+                }));
+              },
               color: theme.isLightTheme ? Colors.red : Colors.red.shade300,
             ),
           ],

@@ -1,7 +1,11 @@
 import 'package:calculator/states/app_theme/app_theme_bloc.dart';
 import 'package:calculator/states/app_theme/app_theme_state.dart';
+import 'package:calculator/states/display/display_bloc.dart';
+import 'package:calculator/states/display/display_event.dart';
+import 'package:calculator/states/display/display_state.dart';
 import 'package:calculator/widgets/display_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Display extends StatelessWidget {
@@ -16,9 +20,46 @@ class Display extends StatelessWidget {
         height: 150,
         width: MediaQuery.of(context).size.width,
         child: Column(
-          children: const [
-            Expanded(child: Center()),
-            DisplayBar(),
+          children: [
+            BlocBuilder<DisplayBloc, DisplayState>(
+              builder: (context, displayState) => Expanded(
+                child: SizedBox.expand(
+                  child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () => BlocProvider.of<DisplayBloc>(context)
+                            .add(PushResultToClipboard()),
+                        hoverColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              displayState.result,
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                                color: appTheme.theme.text,
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              displayState.expression,
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                                color: appTheme.theme.text,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
+                ),
+              ),
+            ),
+            const DisplayBar(),
           ],
         ),
       ),

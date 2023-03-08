@@ -1,8 +1,8 @@
 import 'package:calculator/states/app_theme/app_theme_bloc.dart';
 import 'package:calculator/states/app_theme/app_theme_state.dart';
-import 'package:calculator/states/keyboard/keyboard_bloc.dart';
-import 'package:calculator/states/keyboard/keyboard_event.dart';
-import 'package:calculator/states/keyboard/keyboard_state.dart';
+import 'package:calculator/states/display/display_bloc.dart';
+import 'package:calculator/states/display/display_state.dart';
+import 'package:calculator/states/parentheses/parentheses_bloc.dart';
 import 'package:calculator/themes/light_theme.dart';
 import 'package:flutter/material.dart';
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -18,7 +18,8 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   late AppThemeBloc _appThemeBloc;
-  late KeyboardBloc _keyboardBloc;
+  late DisplayBloc _displayBloc;
+  late ParenthesesBloc _parenthesesBloc;
 
   @override
   void initState() {
@@ -28,7 +29,8 @@ class _AppState extends State<App> {
       isLightTheme: true,
     ));
 
-    _keyboardBloc = KeyboardBloc(KeyboardInitial());
+    _displayBloc = DisplayBloc(DisplayState.initial());
+    _parenthesesBloc = ParenthesesBloc();
   }
 
   @override
@@ -36,11 +38,12 @@ class _AppState extends State<App> {
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: _appThemeBloc),
-        BlocProvider.value(value: _keyboardBloc..add(DrawKeyboard.common()))
+        BlocProvider.value(value: _displayBloc),
+        BlocProvider.value(value: _parenthesesBloc)
       ],
       child: SizedBox.expand(
         child: Column(
-          children: const [Display(), Expanded(child: Keyboard())],
+          children: [const Display(), Expanded(child: Keyboard())],
         ),
       ),
     );
