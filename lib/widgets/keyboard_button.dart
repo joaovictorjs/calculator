@@ -36,7 +36,13 @@ class KeyboardButton extends StatelessWidget {
             child: Center(
               child: Text(
                 item.text,
-                style: TextStyle(color: theme.text, fontSize: 16),
+                style: TextStyle(
+                  color: theme.text,
+                  fontSize: 15,
+                  fontFamily: "Poppins",
+                  fontWeight: FontWeight.w400,
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
           ),
